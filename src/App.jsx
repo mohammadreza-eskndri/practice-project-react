@@ -1,12 +1,14 @@
+import LayoutAuth from "./layout/LayoutAuth.jsx";
+import {useLocation} from "react-router-dom";
 import Layout from "./layout/Layout.jsx";
-import {BrowserRouter} from "react-router-dom";
 
 function App() {
+    const location = useLocation();
     return (
         <>
-            <BrowserRouter >
-                <Layout/>
-            </BrowserRouter>
+            {location.pathname.includes()}
+            <Layout/>
+            <LayoutAuth/>
         </>
     )
 }
