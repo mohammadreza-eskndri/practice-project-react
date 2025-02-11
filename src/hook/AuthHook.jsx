@@ -39,7 +39,7 @@ const useAuth = () => {
         checkLoginStatus();
     }, []);
 
-    return { user, isAuthenticated, loading };
+    return [ user, isAuthenticated, loading ]
 };
 
-export default useAuth; // حتماً `export default` باشد
+export default useAuth

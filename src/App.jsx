@@ -6,9 +6,11 @@ function App() {
     const location = useLocation();
     return (
         <>
-            {location.pathname.includes()}
-            <Layout/>
-            <LayoutAuth/>
+            {location.pathname.includes('/auth/') ? (
+                <LayoutAuth/>
+            ) : (
+                <Layout/>)
+            }
         </>
     )
 }
