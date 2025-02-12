@@ -26,7 +26,7 @@ const Login = () => {
             const {refresh, access} = data
             localStorage.setItem("access_token", access);
             localStorage.setItem("refresh_token", refresh);
-            navigate("/dashboard");
+            navigate("/");
         } catch (err) {
             setError(err + "خطا در ورود");
         }

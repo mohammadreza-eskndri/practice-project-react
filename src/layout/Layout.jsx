@@ -6,28 +6,27 @@ import useAuth from "../hook/AuthHook.jsx";
 import {Navigate} from "react-router-dom";
 
 const Layout = () => {
-    const {isAuthenticated, loading} = useAuth();
+    const { isAuthenticated, loading } = useAuth(); // مقدار صحیح دریافت شده
+
+    if (loading) {
+        return <p>در حال بررسی وضعیت احراز هویت...</p>; // جلوگیری از رندر اشتباه
+    }
 
     return (
         <>
             <AdminContextContainer>
-                {
-                    loading ? (
-                        <p>لطفا صبر کنید...</p>
-                    ): isAuthenticated ? (
-                        <div>
-                            <Header/>
-                            <Navbar/>
-                            <Content/>
-                        </div>
-                    ):(
-                        <Navigate to={'/auth/login'}/>
-                    )
-                }
-
+                {isAuthenticated ? (
+                    <div>
+                        <Header/>
+                        <Navbar/>
+                        <Content/>
+                    </div>
+                ) : (
+                    <Navigate to={'/auth/login'} replace />
+                )}
             </AdminContextContainer>
         </>
-    )
+    );
 }
 
-export default Layout
+export default Layout;

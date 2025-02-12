@@ -1,6 +1,6 @@
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const useAuth = () => {
     const [user, setUser] = useState(null);
@@ -16,32 +16,33 @@ const useAuth = () => {
                 setUser(null);
                 setIsAuthenticated(false);
                 setLoading(false);
-                return navigate('/auth/login');
+                return;
             }
 
             try {
-                const response = await axios.get("http://localhost:8000/api/token/", {
-                    headers: {Authorization: `Bearer ${token}`},
+                const response = await axios.get("http://localhost:8000/todo/api/auth-status/", {
+                    headers: { Authorization: `Bearer ${token}` },
                 });
-                console.log(response)
+
                 if (response.status === 200) {
-                    // setUser(response.data);
+                    setUser(response.data);
                     setIsAuthenticated(true);
                 }
             } catch (error) {
                 console.error("خطا در اعتبارسنجی توکن:", error);
-                // localStorage.removeItem("access_token");
+                localStorage.removeItem("access_token");
                 setUser(null);
                 setIsAuthenticated(false);
+                navigate('/auth/login'); // وقتی توکن نامعتبره، هدایت به لاگین
             } finally {
                 setLoading(false);
             }
         };
 
         checkLoginStatus();
-    }, []);
+    }, [navigate]);
 
-    return [user, isAuthenticated, loading]
+    return { isAuthenticated, user, loading }; // مقدار loading رو برگردون
 };
 
-export default useAuth
+export default useAuth;
