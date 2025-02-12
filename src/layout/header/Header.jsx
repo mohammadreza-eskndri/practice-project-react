@@ -1,5 +1,6 @@
 import {useContext} from "react";
 import {AdminContext} from "../../Context/adminLayoutContext.jsx";
+import {Link} from "react-router-dom";
 
 const Header = () => {
     // const {setShowSidebar} = useContext(AdminContext)
@@ -41,7 +42,7 @@ const Header = () => {
                             <hr/>
                             <li className="d-flex justify-content-center align-items-center px-2">
                                 <i className="fas fa-power-off"></i>
-                                <a className="dropdown-item" href="#">خروج</a>
+                                <Link className="dropdown-item" to={'/logout'}>خروج</Link>
                             </li>
                         </ul>
                         <i className="far fa-bell fa-2x mx-3 pointer position-relative">

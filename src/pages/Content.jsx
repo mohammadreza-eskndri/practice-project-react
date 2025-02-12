@@ -16,6 +16,8 @@ import Permission from "./Permission/Permission.jsx";
 import Question from "./Questions/Question.jsx";
 import Roles from "./Roles/Roles.jsx";
 import User from "./Users/User.jsx";
+import Logout from "./Auth/Logout.jsx";
+import Login from "./Auth/Login.jsx";
 
 const Content = () => {
     const { showSidebar } = useContext(AdminContext);
@@ -40,6 +42,8 @@ const Content = () => {
                         <Route path={'/question'} element={<Question/>}/>
                         <Route path={'/role'} element={<Roles/>}/>
                         <Route path={'/user'} element={<User/>}/>
+                        <Route path={'/logout'} element={<Logout/>}/>
+
                         <Route path={'*'} element={<Dashboard/>}/>
                     </Routes>
                 </section>

@@ -23,11 +23,10 @@ const Login = () => {
         setError(null);
         try {
             const {data} = await axios.post("http://localhost:8000/api/token/", values);
-            const {access, refresh} = data
+            const {refresh, access} = data
             localStorage.setItem("access_token", access);
             localStorage.setItem("refresh_token", refresh);
             navigate("/dashboard");
-            window.location.href = "/dashboard";
         } catch (err) {
             setError(err + "خطا در ورود");
         }
