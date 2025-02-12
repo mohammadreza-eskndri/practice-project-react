@@ -1,9 +1,11 @@
 import {useContext} from "react";
 import {AdminContext} from "../../Context/adminLayoutContext.jsx";
 import {Link} from "react-router-dom";
+import useLogout from "../../hook/AuthLogout.jsx";
 
 const Header = () => {
     // const {setShowSidebar} = useContext(AdminContext)
+    const logout = useLogout();
     return (
         <>
             <nav className="navbar fixed-top navbar-dark bg-secondary top_navbar py-0">
@@ -42,7 +44,7 @@ const Header = () => {
                             <hr/>
                             <li className="d-flex justify-content-center align-items-center px-2">
                                 <i className="fas fa-power-off"></i>
-                                <Link className="dropdown-item" to={'/logout'}>خروج</Link>
+                                <button className="dropdown-item" onClick={logout}>خروج</button>
                             </li>
                         </ul>
                         <i className="far fa-bell fa-2x mx-3 pointer position-relative">

@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import AuthFormikControl from "../../components/AuthFormikControl.jsx";
 import {useNavigate} from "react-router-dom";
+import {Alert} from "../../utils/Alert.jsx";
 
 const Login = () => {
     const [error, setError] = useState(null);
@@ -26,6 +27,7 @@ const Login = () => {
             const {refresh, access} = data
             localStorage.setItem("access_token", access);
             localStorage.setItem("refresh_token", refresh);
+            Alert('خداحافظ','خداحافظ نازنین پهلوان','success')
             navigate("/");
         } catch (err) {
             setError(err + "خطا در ورود");
