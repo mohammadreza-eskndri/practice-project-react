@@ -20,7 +20,7 @@ const useAuth = () => {
             }
 
             try {
-                const response = await axios.get("http://localhost:8000/todo/api/auth-status/", {
+                const response = await axios.get("http://localhost:8000/admin-react/api/auth-status/", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 

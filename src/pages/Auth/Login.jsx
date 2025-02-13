@@ -24,10 +24,12 @@ const Login = () => {
         setError(null);
         try {
             const {data} = await axios.post("http://localhost:8000/api/token/", values);
+            console.log(data);
+
             const {refresh, access} = data
             localStorage.setItem("access_token", access);
             localStorage.setItem("refresh_token", refresh);
-            Alert('خداحافظ','خداحافظ نازنین پهلوان','success')
+            Alert('سلام دوست من', 'خوش اومدی به وب سایت مهندس اسکندری', 'success')
             navigate("/");
         } catch (err) {
             setError(err + "خطا در ورود");
@@ -52,6 +54,7 @@ const Login = () => {
                                         name="username"
                                         icon="fas fa-envelope"
                                         formik={formik}
+                                        label='نام کاربری'
                                     />
                                 </div>
                                 <div>
@@ -63,6 +66,7 @@ const Login = () => {
                                         name="password"
                                         icon="fas fa-lock"
                                         formik={formik}
+                                        label='رمز عبور'
                                     />
                                 </div>
                                 <button

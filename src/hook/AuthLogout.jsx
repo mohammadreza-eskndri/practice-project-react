@@ -16,7 +16,7 @@ const useLogout = () => {
 
         try {
             await axios.post(
-                "http://localhost:8000/todo/api/logout/",
+                "http://localhost:8000/admin-react/api/logout/",
                 { refresh_token: refreshToken },
                 { headers: { Authorization: `Bearer ${accessToken}` } }
             );
