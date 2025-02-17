@@ -1,5 +1,4 @@
 import AddProduct from "./AddProduct.jsx";
-import {createPortal} from "react-dom";
 
 const Product = () => {
     return(

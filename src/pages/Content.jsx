@@ -17,7 +17,6 @@ import Question from "./Questions/Question.jsx";
 import Roles from "./Roles/Roles.jsx";
 import User from "./Users/User.jsx";
 import Logout from "./Auth/Logout.jsx";
-import Login from "./Auth/Login.jsx";
 
 const Content = () => {
     const { showSidebar } = useContext(AdminContext);

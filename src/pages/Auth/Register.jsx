@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {Formik, Form} from 'formik';
 import axios from 'axios';
 import * as Yup from 'yup';
-import AuthFormikControl from "../../components/AuthFormikControl.jsx";
+import AuthFormikControl from "../../components/AuthForm/AuthFormikControl.jsx";
 import {Alert} from "../../utils/Alert.jsx";
 import {useNavigate} from "react-router-dom";
 
