@@ -1,6 +1,31 @@
 import {ModalsContainer} from "../../components/ModalsContainer.jsx";
+import {Form, Formik} from "formik";
+import FormikControl from "../../components/Form/FormikControl.jsx";
+import * as Yup from "yup";
+import axios from "axios";
+import {Alert} from "../../utils/Alert.jsx";
+import SubmitButton from "../../components/Form/SubmitButton.jsx";
 
-const AddCategory = () => {
+const initialValues = {
+    title: '',
+}
+const validationSchema = Yup.object({
+    title: Yup.string().required('عنوان محصول الزامی است'),
+})
+const onSubmit = async (values, action, setForceRender) => {
+    try {
+        await axios.post('http://localhost:8000/products/cat/list-create/', values, {
+            headers: {'Content-Type': 'multipart/form-data'}
+        });
+        setForceRender(last => last + 1)
+        Alert('اوکی', "با موفقیت محصول افزوده شد!", 'success');
+    } catch (error) {
+        console.error(error);
+        Alert('مشکلی در افزودن محصول پیش آمد', error.message, 'error');
+    }
+};
+
+const AddCategory = ({setForceRender}) => {
     return (
         <>
             <ModalsContainer>
@@ -15,50 +40,26 @@ const AddCategory = () => {
                             <div className="modal-body">
                                 <div className="container">
                                     <div className="row justify-content-center">
-                                        <div className="col-12 col-md-6 col-lg-8">
-                                            <div className="input-group mb-3 dir_ltr">
-                                                <select className="form-control">
-                                                    <option value="1">بدون والد</option>
-                                                    <option value="1">دسته شماره 1</option>
-                                                </select>
-                                                <span
-                                                    className="input-group-text w_6rem justify-content-center">دسته والد</span>
-                                            </div>
-                                        </div>
-                                        <div className="col-12 col-md-6 col-lg-8">
-                                            <div className="input-group mb-3 dir_ltr">
-                                                <input type="text" className="form-control" placeholder="عنوان دسته"/>
-                                                <span
-                                                    className="input-group-text w_6rem justify-content-center">عنوان</span>
-                                            </div>
-                                        </div>
-                                        <div className="col-12 col-md-6 col-lg-8">
-                                            <div className="input-group mb-3 dir_ltr">
-                                            <textarea className="form-control" placeholder="توضیحات"
-                                                      rows="5"/>
-                                                <span
-                                                    className="input-group-text w_6rem justify-content-center">توضیحات</span>
-                                            </div>
-                                        </div>
-                                        <div className="col-12 col-md-6 col-lg-8">
-                                            <div className="input-group mb-3 dir_ltr">
-                                                <input type="file" className="form-control" placeholder="تصویر"/>
-                                                <span
-                                                    className="input-group-text w_6rem justify-content-center">تصویر</span>
-                                            </div>
-                                        </div>
-                                        <div className="col-12 col-md-6 col-lg-8 row justify-content-center">
-                                            <div className="form-check form-switch col-5 col-md-2">
-                                                <input className="form-check-input pointer" type="checkbox"
-                                                       id="flexSwitchCheckDefault"/>
-                                                <label className="form-check-label pointer"
-                                                       htmlFor="flexSwitchCheckDefault">وضعیت فعال</label>
-                                            </div>
-                                        </div>
-                                        <div className="btn_box text-center col-12 col-md-6 col-lg-8 mt-4">
-                                            <button className="btn btn-primary ">ذخیره</button>
-                                        </div>
-
+                                        <Formik
+                                            initialValues={initialValues}
+                                            onSubmit={(values, action) => onSubmit(values, action, setForceRender)}
+                                            validationSchema={validationSchema}
+                                        >
+                                            {(formik) => (
+                                                <Form>
+                                                    <FormikControl
+                                                        control="input"
+                                                        type="text"
+                                                        className="col-md-6 col-lg-8"
+                                                        name="title"
+                                                        formik={formik}
+                                                        label="عنوان دسته"
+                                                        placeholder='عنوان دسته'
+                                                    />
+                                                    <SubmitButton formik={formik}/>
+                                                </Form>
+                                            )}
+                                        </Formik>
                                     </div>
                                 </div>
                             </div>

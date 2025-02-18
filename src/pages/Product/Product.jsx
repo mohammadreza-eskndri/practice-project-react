@@ -1,75 +1,43 @@
 import AddProduct from "./AddProduct.jsx";
+import {useEffect, useState} from "react";
+import axios from "axios";
+import Pagination from "../../components/Pagination.jsx";
+import {Spinner} from "react-bootstrap";
+
 
 const Product = () => {
-    return(
+    const [data, setData] = useState([]);
+    const [columns, setColumns] = useState([]);
+    const [forceRender, setForceRender] = useState(0);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLoading(true)
+        axios.get("http://localhost:8000/products/list-create/")
+            .then(response => {
+                const fetchedData = response.data.results;
+                setData(fetchedData);
+
+                // اگر داده‌ای دریافت شده باشد، کلیدهای اولین آیتم را استخراج کن
+                if (fetchedData.length > 0) {
+                    setColumns(Object.keys(fetchedData[0]));
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching data: ", error);
+            }).finally(
+            setLoading(false)
+        )
+    }, [forceRender]);
+    return (
         <>
             <div id="manage_product_section" className="manage_product_section main_section">
                 <h4 className="text-center my-3">مدیریت محصولات</h4>
-                <div className="row justify-content-between">
-                    <div className="col-10 col-md-6 col-lg-4">
-                        <div className="input-group mb-3 dir_ltr">
-                            <input type="text" className="form-control" placeholder="قسمتی از عنوان را وارد کنید"/>
-                                <span className="input-group-text" >جستجو</span>
-                        </div>
-                    </div>
-                    <div className="col-2 col-md-6 col-lg-4 d-flex flex-column align-items-end">
-                        <button className="btn btn-success d-flex justify-content-center align-items-center" data-bs-toggle="modal" data-bs-target="#add_product_modal">
-                            <i className="fas fa-plus text-light"></i>
-                        </button>
-                    </div>
-                </div>
-                <table className="table table-responsive text-center table-hover table-bordered">
-                    <thead className="table-secondary">
-                    <tr>
-                        <th>#</th>
-                        <th>دسته</th>
-                        <th>عنوان</th>
-                        <th>قیمت</th>
-                        <th>موجودی</th>
-                        <th>تعداد لایک</th>
-                        <th>وضعیت</th>
-                        <th>عملیات</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>دسته شماره فلان</td>
-                        <td>محصول شماره1</td>
-                        <td>20,000 تومان</td>
-                        <td>10</td>
-                        <td>
-                            <span className="text-success mx-2">30</span>
-                            <span className="text-danger mx-2">10</span>
-                        </td>
-                        <td>فعال</td>
-                        <td>
-                            <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip" title="ویرایش محصول" data-bs-toggle="modal" data-bs-placement="top" data-bs-target="#add_product_modal"></i>
-                            <i className="fas fa-receipt text-info mx-1 hoverable_text pointer has_tooltip" title="ثبت ویژگی" data-bs-toggle="modal" data-bs-target="#add_product_attr_modal"></i>
-                            <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip" title="حذف محصول" data-bs-toggle="tooltip" data-bs-placement="top"></i>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <nav aria-label="Page navigation example" className="d-flex justify-content-center">
-                    <ul className="pagination dir_ltr">
-                        <li className="page-item">
-                            <a className="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                        <li className="page-item"><a className="page-link" href="#">1</a></li>
-                        <li className="page-item"><a className="page-link" href="#">2</a></li>
-                        <li className="page-item"><a className="page-link" href="#">3</a></li>
-                        <li className="page-item">
-                            <a className="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+                {loading ? <Spinner/> : null}
+                <Pagination data={data} columns={columns}/>
             </div>
-            <AddProduct/>
+
+            <AddProduct setForceRender={setForceRender}/>
         </>
     )
 }

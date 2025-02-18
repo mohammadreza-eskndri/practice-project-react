@@ -1,24 +1,42 @@
-import { useEffect, useState, useMemo } from "react";
+import {useEffect, useState, useMemo} from "react";
 
-const numOfPages = 2;
-const Pagination = ({ data }) => {
+const numOfPages = 20;
+const Pagination = ({data, columns}) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [tableData, setTableData] = useState([]);
     const [searchChar, setSearchChar] = useState("");
 
     // جلوگیری از تغییر بی‌مورد `filteredData`
-    const filteredData = useMemo(() => data.filter((d) => d.title.includes(searchChar)), [data, searchChar]);
+    const filteredData = useMemo(
+        () => data.filter((d) => d.title && d.title.includes(searchChar)), // اضافه کردن بررسی وجود `d.title`
+        [data, searchChar]
+    );
 
     // محاسبه تعداد صفحات
     const pageCount = Math.ceil(filteredData.length / numOfPages);
-    const pages = Array.from({ length: pageCount }, (_, i) => i + 1);
+    const pages = Array.from({length: pageCount}, (_, i) => i + 1);
 
     // مقداردهی داده‌های جدول بر اساس صفحه جاری
     useEffect(() => {
         const start = (currentPage - 1) * numOfPages;
         const end = start + numOfPages;
         setTableData(filteredData.slice(start, end));
-    }, [currentPage, filteredData]);
+    }, [currentPage, filteredData, data]);
+
+    const toPersianColumns = (columns) => {
+        const translations = {
+            "id": "شناسه",
+            "title": "عنوان",
+            "price": "قیمت",
+            "date": "تاریخ",
+            "category": 'دسته',
+            'description':'توضیحات',
+            'discount':'تخفیف',
+            'image':'تصویر',
+
+        };
+        return columns.map(col => translations[col] || col);
+    };
 
     return (
         <>
@@ -34,15 +52,24 @@ const Pagination = ({ data }) => {
                         <span className="input-group-text">جستجو</span>
                     </div>
                 </div>
+                <div className="col-2 col-md-6 col-lg-4 d-flex flex-column align-items-end">
+                    <button className="btn btn-success d-flex justify-content-center align-items-center"
+                            data-bs-toggle="modal" data-bs-target="#add_product_category_modal">
+                        <i className="fas fa-plus text-light"></i>
+                    </button>
+                </div>
             </div>
 
             <table className="table table-responsive text-center table-hover table-bordered">
                 <thead className="table-secondary">
                 <tr>
-                    <th>#</th>
-                    <th>عنوان</th>
-                    <th>وضعیت</th>
-                    <th>عملیات</th>
+                    {toPersianColumns(columns).map((c, index) => (
+                        <th key={index}>
+                            {c}
+                        </th>
+
+                    ))}
+
                 </tr>
                 </thead>
                 <tbody>
@@ -51,11 +78,22 @@ const Pagination = ({ data }) => {
                         <td colSpan="4">داده‌ای یافت نشد</td>
                     </tr>
                 ) : (
-                    tableData.map((item) => (
-                        <tr key={item.id}>
-                            <td>{item.id}</td>
-                            <td>{item.title}</td>
-                            <td>فعال</td>
+
+                    tableData.map((item, index) => (
+                        <tr key={index}>
+                            {columns.map((col) => (
+                                <td key={col}>
+                                    {col === 'image' ? (  // فرض می‌کنیم ستون تصویر نامش 'image' هست
+                                        <img
+                                            src={`${item[col]}`}
+                                            alt="تصویر"
+                                            style={{ width: "50px", height: "50px" }}
+                                        />
+                                    ) : (
+                                        item[col]  // برای سایر ستون‌ها، مقدار متن نمایش داده میشه
+                                    )}
+                                </td>
+                            ))}
                             <td>
                                 <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip"
                                    title="ویرایش دسته"></i>
@@ -64,6 +102,7 @@ const Pagination = ({ data }) => {
                             </td>
                         </tr>
                     ))
+
                 )}
                 </tbody>
             </table>

@@ -30,22 +30,23 @@ const App = () => {
                 <Route path="logout" element={<Logout/>}/>
             </Route>
            <Route path={'/'} element={<Layout/>}>
-               <Route path={'/dashboard'} element={<Dashboard/>}/>
-               <Route path={'/categories'} element={<Category/>}/>
-               <Route path={'/products'} element={<Product/>}/>
-               <Route path={'/guaranties'} element={<Guaranties/>}/>
-               <Route path={'/brand'} element={<Brands/>}/>
-               <Route path={'/cart'} element={<Carts/>}/>
-               <Route path={'/color'} element={<Colors/>}/>
-               <Route path={'/comment'} element={<Comments/>}/>
-               <Route path={'/deliver'} element={<Deliveries/>}/>
-               <Route path={'/discount'} element={<Discount/>}/>
-               <Route path={'/order'} element={<Order/>}/>
-               <Route path={'/permission'} element={<Permission/>}/>
-               <Route path={'/question'} element={<Question/>}/>
-               <Route path={'/role'} element={<Roles/>}/>
-               <Route path={'/user'} element={<User/>}/>
-               <Route path={'/logout'} element={<Logout/>}/>
+               <Route index element={<Navigate to="dashboard" replace/>}/>
+               <Route path={'dashboard'} element={<Dashboard/>}/>
+               <Route path={'categories'} element={<Category/>}/>
+               <Route path={'products'} element={<Product/>}/>
+               <Route path={'guaranties'} element={<Guaranties/>}/>
+               <Route path={'brand'} element={<Brands/>}/>
+               <Route path={'cart'} element={<Carts/>}/>
+               <Route path={'color'} element={<Colors/>}/>
+               <Route path={'comment'} element={<Comments/>}/>
+               <Route path={'deliver'} element={<Deliveries/>}/>
+               <Route path={'discount'} element={<Discount/>}/>
+               <Route path={'order'} element={<Order/>}/>
+               <Route path={'permission'} element={<Permission/>}/>
+               <Route path={'question'} element={<Question/>}/>
+               <Route path={'role'} element={<Roles/>}/>
+               <Route path={'user'} element={<User/>}/>
+               <Route path={'logout'} element={<Logout/>}/>
 
                <Route path={'*'} element={<Dashboard/>}/>
            </Route>
