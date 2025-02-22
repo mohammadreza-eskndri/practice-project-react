@@ -1,4 +1,5 @@
 import {useEffect, useState, useMemo} from "react";
+import {Link} from "react-router-dom"; // اضافه کردن Link برای مسیریابی
 
 const numOfPages = 20;
 const Pagination = ({data, columns}) => {
@@ -6,17 +7,14 @@ const Pagination = ({data, columns}) => {
     const [tableData, setTableData] = useState([]);
     const [searchChar, setSearchChar] = useState("");
 
-    // جلوگیری از تغییر بی‌مورد `filteredData`
     const filteredData = useMemo(
-        () => data.filter((d) => d.title && d.title.includes(searchChar)), // اضافه کردن بررسی وجود `d.title`
+        () => data.filter((d) => d.title && d.title.includes(searchChar)),
         [data, searchChar]
     );
 
-    // محاسبه تعداد صفحات
     const pageCount = Math.ceil(filteredData.length / numOfPages);
     const pages = Array.from({length: pageCount}, (_, i) => i + 1);
 
-    // مقداردهی داده‌های جدول بر اساس صفحه جاری
     useEffect(() => {
         const start = (currentPage - 1) * numOfPages;
         const end = start + numOfPages;
@@ -25,17 +23,16 @@ const Pagination = ({data, columns}) => {
 
     const toPersianColumns = (columns) => {
         const translations = {
-            "id": "شناسه",
-            "title": "عنوان",
-            "price": "قیمت",
-            "date": "تاریخ",
-            "category": 'دسته',
-            'description':'توضیحات',
-            'discount':'تخفیف',
-            'image':'تصویر',
-
+            id: "شناسه",
+            title: "عنوان",
+            price: "قیمت",
+            date: "تاریخ",
+            category: "دسته",
+            description: "توضیحات",
+            discount: "تخفیف",
+            image: "تصویر",
         };
-        return columns.map(col => translations[col] || col);
+        return columns.map((col) => translations[col] || col);
     };
 
     return (
@@ -53,8 +50,11 @@ const Pagination = ({data, columns}) => {
                     </div>
                 </div>
                 <div className="col-2 col-md-6 col-lg-4 d-flex flex-column align-items-end">
-                    <button className="btn btn-success d-flex justify-content-center align-items-center"
-                            data-bs-toggle="modal" data-bs-target="#add_product_category_modal">
+                    <button
+                        className="btn btn-success d-flex justify-content-center align-items-center"
+                        data-bs-toggle="modal"
+                        data-bs-target="#add_product_category_modal"
+                    >
                         <i className="fas fa-plus text-light"></i>
                     </button>
                 </div>
@@ -64,50 +64,52 @@ const Pagination = ({data, columns}) => {
                 <thead className="table-secondary">
                 <tr>
                     {toPersianColumns(columns).map((c, index) => (
-                        <th key={index}>
-                            {c}
-                        </th>
-
+                        <th key={index}>{c}</th>
                     ))}
-
+                    <th>عملیات</th>
+                    {/* اضافه کردن ستون عملیات */}
                 </tr>
                 </thead>
                 <tbody>
                 {tableData.length === 0 ? (
                     <tr>
-                        <td colSpan="4">داده‌ای یافت نشد</td>
+                        <td colSpan={columns.length + 1}>داده‌ای یافت نشد</td>
                     </tr>
                 ) : (
-
                     tableData.map((item, index) => (
                         <tr key={index}>
                             {columns.map((col) => (
                                 <td key={col}>
-                                    {col === 'image' ? (  // فرض می‌کنیم ستون تصویر نامش 'image' هست
+                                    {col === "image" ? (
                                         <img
                                             src={`${item[col]}`}
                                             alt="تصویر"
-                                            style={{ width: "50px", height: "50px" }}
+                                            style={{width: "50px", height: "50px"}}
                                         />
                                     ) : (
-                                        item[col]  // برای سایر ستون‌ها، مقدار متن نمایش داده میشه
+                                        item[col]
                                     )}
                                 </td>
                             ))}
                             <td>
-                                <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip"
-                                   title="ویرایش دسته"></i>
-                                <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
-                                   title="حذف دسته"></i>
+                                <Link to={`edit/${item.id}/`}>
+                                    <i
+                                        className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip"
+                                        title="ویرایش محصول"
+                                    ></i>
+                                </Link>
+                                <Link to={`delete/${item.id}/`}>
+                                    <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
+                                       title="حذف محصول"
+                                    ></i>
+                                </Link>
                             </td>
                         </tr>
                     ))
-
                 )}
                 </tbody>
             </table>
 
-            {/* Pagination */}
             {pageCount > 1 && (
                 <nav aria-label="Page navigation example" className="d-flex justify-content-center">
                     <ul className="pagination dir_ltr">
@@ -118,8 +120,10 @@ const Pagination = ({data, columns}) => {
                         </li>
                         {pages.map((item) => (
                             <li className="page-item" key={item}>
-                                <span className={`page-link pointer ${currentPage === item ? "alert-success" : ""}`}
-                                      onClick={() => setCurrentPage(item)}>
+                                <span
+                                    className={`page-link pointer ${currentPage === item ? "alert-success" : ""}`}
+                                    onClick={() => setCurrentPage(item)}
+                                >
                                     {item}
                                 </span>
                             </li>
@@ -135,4 +139,5 @@ const Pagination = ({data, columns}) => {
         </>
     );
 };
+
 export default Pagination;

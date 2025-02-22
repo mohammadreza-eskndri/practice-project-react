@@ -4,7 +4,6 @@ import axios from "axios";
 import Pagination from "../../components/Pagination.jsx";
 import {Spinner} from "react-bootstrap";
 
-
 const Product = () => {
     const [data, setData] = useState([]);
     const [columns, setColumns] = useState([]);

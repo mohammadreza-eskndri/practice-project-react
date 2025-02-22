@@ -19,6 +19,10 @@ import Permission from "./pages/Permission/Permission.jsx";
 import Question from "./pages/Questions/Question.jsx";
 import Roles from "./pages/Roles/Roles.jsx";
 import User from "./pages/Users/User.jsx";
+import EditProduct from "./pages/Product/EditProduct.jsx";
+import DeleteProduct from "./pages/Product/DeleteProduct.jsx";
+import EditCategory from "./pages/Category/EditCategory.jsx";
+import DeleteCategory from "./pages/Category/DeleteCategory.jsx";
 
 const App = () => {
     return (
@@ -52,8 +56,8 @@ const App = () => {
                 <Route path={'user'} element={<User/>}/>
                 <Route path={'logout'} element={<Logout/>}/>
 
-               <Route path={'*'} element={<Dashboard/>}/>
-           </Route>
+                <Route path={'*'} element={<Dashboard/>}/>
+            </Route>
         </Routes>
     );
 };
