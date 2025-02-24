@@ -1,8 +1,9 @@
 import AddProduct from "./AddProduct.jsx";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import Pagination from "../../components/Pagination.jsx";
+import Pagination from "../../components/TableComponent.jsx";
 import {Spinner} from "react-bootstrap";
+import TableComponent from "../../components/TableComponent.jsx";
 
 const Product = () => {
     const [data, setData] = useState([]);
@@ -19,7 +20,16 @@ const Product = () => {
 
                 // اگر داده‌ای دریافت شده باشد، کلیدهای اولین آیتم را استخراج کن
                 if (fetchedData.length > 0) {
-                    setColumns(Object.keys(fetchedData[0]));
+                    console.log(fetchedData)
+                    // استخراج کلیدهای اولین آبجکت و تبدیل به فرمت مناسب
+                    const dynamicColumns = Object.keys(fetchedData[0]).map(key => ({
+                        key: key,
+                        label: key === "id" ? "شناسه" :
+                            key === "title" ? "عنوان" :
+                                key === "attributes" ? "ویژگی‌ها" :
+                                    key
+                    }));
+                    setColumns(dynamicColumns);
                 }
             })
             .catch(error => {
@@ -33,7 +43,7 @@ const Product = () => {
             <div id="manage_product_section" className="manage_product_section main_section">
                 <h4 className="text-center my-3">مدیریت محصولات</h4>
                 {loading ? <Spinner/> : null}
-                <Pagination data={data} columns={columns}/>
+                <TableComponent data={data} columns={columns}/>
             </div>
 
             <AddProduct setForceRender={setForceRender}/>

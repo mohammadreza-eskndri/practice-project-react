@@ -15,9 +15,9 @@ const EditCategory = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
-    // دریافت اطلاعات محصول از سرور
+    // دریافت اطلاعات دسته از سرور
     useEffect(() => {
-        axios.get(`http://localhost:8000/products/cat/edit/${id}/`)
+        axios.get(`http://localhost:8000/products/cat/detail/${id}/`)
             .then(response => {
                 setInitialValues(response.data);
             })
@@ -33,7 +33,7 @@ const EditCategory = () => {
 
     // ارسال داده‌های ویرایش‌شده به سرور
     const handleSubmit = (values, {setSubmitting}) => {
-        axios.put(`http://localhost:8000/products/cat/edit/${id}/`, values)
+        axios.put(`http://localhost:8000/products/cat/detail/${id}/`, values)
             .then(() => {
                 Alert("دسته بندی با موفقیت ویرایش شد!", "ایول", "success");
                 navigate("/cat"); // بازگشت به لیست محصولات

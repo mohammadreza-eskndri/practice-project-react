@@ -10,7 +10,7 @@ const DeleteProduct = () => {
     useEffect(() => {
         const deleteProduct = async () => {
             try {
-                await axios.delete(`http://localhost:8000/products/delete/${id}/`);
+                await axios.delete(`http://localhost:8000/products/detail/${id}/`);
                 Alert("محصول با موفقیت حذف شد!", "ایول", "success");
                 navigate("/products"); // بازگشت به لیست محصولات
             } catch (error) {

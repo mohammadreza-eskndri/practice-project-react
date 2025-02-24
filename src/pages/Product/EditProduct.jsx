@@ -22,7 +22,7 @@ const EditProduct = () => {
 
     // دریافت اطلاعات محصول از سرور
     useEffect(() => {
-        axios.get(`http://localhost:8000/products/edit/${id}/`)
+        axios.get(`http://localhost:8000/products/detail/${id}/`)
             .then(response => {
                 setInitialValues(response.data);
                 setLoading(false);
@@ -54,7 +54,7 @@ const EditProduct = () => {
             formData.append("image", values.image);
         }
 
-        axios.put(`http://localhost:8000/products/edit/${id}/`, formData, {
+        axios.put(`http://localhost:8000/products/detail/${id}/`, formData, {
             headers: { "Content-Type": "multipart/form-data" }
         })
             .then(() => {

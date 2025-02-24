@@ -23,6 +23,7 @@ import EditProduct from "./pages/Product/EditProduct.jsx";
 import DeleteProduct from "./pages/Product/DeleteProduct.jsx";
 import EditCategory from "./pages/Category/EditCategory.jsx";
 import DeleteCategory from "./pages/Category/DeleteCategory.jsx";
+import Attributes from "./pages/Category/Attributes.jsx";
 
 const App = () => {
     return (
@@ -39,6 +40,7 @@ const App = () => {
                 <Route path={'categories'} element={<Category/>}/>
                 <Route path={'categories/edit/:id'} element={<EditCategory/>}/>
                 <Route path={'categories/delete/:id'} element={<DeleteCategory/>}/>
+                <Route path={'categories/:categoryId/attributes'} element={<Attributes/>}/>
                 <Route path={'products'} element={<Product/>}/>
                 <Route path={'products/edit/:id'} element={<EditProduct/>}/>
                 <Route path={'products/delete/:id'} element={<DeleteProduct/>}/>

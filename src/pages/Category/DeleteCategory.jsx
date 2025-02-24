@@ -10,7 +10,7 @@ const DeleteCategory = () => {
     useEffect(() => {
         const deleteCategory = async () => {
             try {
-                await axios.delete(`http://localhost:8000/products/cat/delete/${id}/`);
+                await axios.delete(`http://localhost:8000/products/cat/detail/${id}/`);
                 Alert("محصول با موفقیت حذف شد!", "ایول", "success");
                 navigate("/categories"); // بازگشت به لیست محصولات
             } catch (error) {

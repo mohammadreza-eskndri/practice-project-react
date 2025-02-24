@@ -14,7 +14,7 @@ const validationSchema = Yup.object({
 })
 const onSubmit = async (values, action, setForceRender) => {
     try {
-        await axios.post('http://localhost:8000/products/cat/list-create/', values, {
+        await axios.post('http://localhost:8000/products/cat/', values, {
             headers: {'Content-Type': 'multipart/form-data'}
         });
         setForceRender(last => last + 1)
